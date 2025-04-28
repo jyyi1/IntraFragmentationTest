@@ -16,12 +16,6 @@ func handleTCPConnection(conn net.Conn, logger TLSHelloRecordLogger, readTimeout
 	remoteAddr := conn.RemoteAddr().String()
 	slog.Info("Accepted connection", slog.String("remote_addr", remoteAddr))
 
-	err := conn.SetReadDeadline(time.Now().Add(readTimeout))
-	if err != nil {
-		slog.Error("Error setting read deadline", slog.String("remote_addr", remoteAddr), slog.Any("error", err))
-		return
-	}
-
 	buffer := make([]byte, 4096)
 	for {
 		if err := conn.SetReadDeadline(time.Now().Add(readTimeout)); err != nil {
